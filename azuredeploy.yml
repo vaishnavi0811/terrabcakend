@@ -1,0 +1,41 @@
+parameters:
+  - name: image
+    displayName: Pool Image
+    default: ubuntu-latest
+    values:
+    - windows-latest
+    - vs2017-win2016
+    - ubuntu-latest
+    - ubuntu-16.04
+    - macOS-latest
+    - macOS-10.14
+
+jobs:
+  - job: DeployAKS
+    pool:
+      vmImage: ${{ parameters.image }}
+
+    variables:
+    - name: imagetag
+      value: '$(Build.BuildId)'
+    steps:
+    - task: Docker@2
+      displayName: buildAndPush
+      inputs:
+        containerRegistry: contentapp
+        repository: terracloud
+    - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+      displayName: 'Replace tokens in **/*.yml'
+      inputs:
+        targetFiles: '**/*.yml'
+        keepToken: true
+        tokenPrefix: '${'
+        tokenSuffix: '}'
+    - task: KubernetesManifest@0
+      displayName: deploy
+      inputs:
+        kubernetesServiceConnection: infraspace
+        namespace: terracloud
+        manifests: deployterra.yml
+        imagePullSecrets: 'nginx-image'
+        rolloutStatusTimeout: 10
