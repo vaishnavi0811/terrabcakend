@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/terracloud.iml" filepath="$PROJECT_DIR$/.idea/terracloud.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/Devops/terraform/venv/.idea/venv.iml" filepath="$USER_HOME$/Documents/Devops/terraform/venv/.idea/venv.iml" />
+    </modules>
+  </component>
+</project>

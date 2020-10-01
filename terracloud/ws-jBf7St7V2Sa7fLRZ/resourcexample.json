@@ -1,0 +1,58 @@
+{
+    "resources": [
+        {
+            "resource_id": "MVM",
+            "resource_type":"windowsvm",
+            "config": {
+                "location": "eastus",
+                "vm_name": "euwmvm01",
+                "rg_name": "Testing",
+                "admin_username": "winuser",
+                "admin_password": "Password@2020",
+                "vm_sku": "2016-Datacenter",
+                "vm_size": "Standard_DS1_v2",
+                "osdatadisksizeingb": 127,
+                "data_disks": [
+                    60,
+                    120
+                ],
+                "vnet_name": "vnet001",
+                "subnet_name": "sbn001",
+                "subscription_Id": "3dc3cd1a-d5cd-4e3e-a648-b2253048af83",
+                "tags": {
+                    "created-by": "32943"
+                }
+            },
+            "depends_on": [
+                "RG",
+                "STA"
+            ]
+        },
+        {
+            "resource_id": "RG",
+            "resource_type":"resourcegroup",
+            "config": {
+                "location": "eastus",
+                "name": "Learning",
+                "tags": {
+                    "created-by": "32943"
+                }
+            },
+            "depends_on": []
+        },
+        {
+            "resource_id": "STA",
+            "resource_type": "storageaccount",
+            "config": {
+                "location": "eastus",
+                "name": "Learning",
+                "tags": {
+                    "created-by": "32943"
+                }
+            },
+            "depends_on": [
+                "RG"
+            ]
+        }
+    ]
+}
