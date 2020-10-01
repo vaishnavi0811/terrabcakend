@@ -24,7 +24,7 @@ spec:
           - name: nginx-image
       containers:
       - name: backendapi
-        image: contentapp.azurecr.io/terracloud:v0
+        image: contentapp.azurecr.io/terracloud:${imagetag}
         imagePullPolicy: IfNotPresent
         resources:
           limits:
