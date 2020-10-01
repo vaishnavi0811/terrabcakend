@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: terracloud
+  namespace: terracloud
+  labels:
+      app: terracloud
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: terracloud
+  strategy:
+     rollingUpdate:
+         maxSurge: 25%
+         maxUnavailable: 25%
+     type: RollingUpdate 
+  template:
+    metadata:
+      labels:
+        app: terracloud
+    spec:
+      imagePullSecrets:
+          - name: nginx-image
+      containers:
+      - name: backendapi
+        image: contentapp.azurecr.io/terracloud:v0
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "2Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 9000
+          name: http
+          protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name:  terrabackend
+  namespace: terracloud
+  annotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  selector:
+    app:  terracloud
+  type:  LoadBalancer
+  ports:
+  - name:  terraapiport
+    port:  80
+    targetPort:  9000
