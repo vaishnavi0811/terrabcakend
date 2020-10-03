@@ -6,17 +6,12 @@ parameters:
   - name: env
   - name: imageSecret
 
-variables:
-  - name: registry
-    value: '${{ parameters.registry }}'
-  - name: env
-    value: '${{ parameters.env }}'
-  - name: imagetag
-    value: '$(Build.BuildId)'
-  - name: secret
-    value: '${{ parameters.imageSecret }}'
 
 steps:
+  - bash: echo "##vso[task.setvariable variable=secret;isOutput=true]${{ parameters.imageSecret }}"
+  - bash: echo "##vso[task.setvariable variable=imagetag;isOutput=true]$(Build.BuildId)"
+  - bash: echo "##vso[task.setvariable variable=registry;isOutput=true]${{ parameters.registry }}"
+  - bash: echo "##vso[task.setvariable variable=env;isOutput=true]${{ parameters.env }}"
   - task: Kubernetes@1
     displayName: 'create namespace'
     inputs:
