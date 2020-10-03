@@ -52,6 +52,7 @@ stages:
         runOnce:
           deploy:
             steps:
+              - checkout: self
               - template: kubedeploy.yml
                 parameters:
                   namespace: ${{ parameters.namespace }}
