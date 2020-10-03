@@ -1,0 +1,39 @@
+parameters:
+  - name: namespace
+  - name: k8sconn
+  - name: imageSecret
+  - name: registry
+  - name: env
+  - name: imageSecret
+
+variables:
+  - name: registry
+    value: '${{ parameters.registry }}'
+  - name: env
+    value: '${{ parameters.env }}'
+  - name: imagetag
+    value: '$(Build.BuildId)'
+  - name: secret
+    value: '${{ parameters.imageSecret }}'
+
+steps:
+  - task: Kubernetes@1
+    displayName: 'create namespace'
+    inputs:
+      kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
+      command: create
+      arguments: 'namespace ${{ parameters.namesapce }}'
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+    displayName: 'Replace tokens in deployment yml'
+    inputs:
+      targetFiles: '**/*.yml'
+      keepToken: true
+      tokenPrefix: '${'
+      tokenSuffix: '}'
+  - task: KubernetesManifest@0
+    displayName: deploy
+    inputs:
+      kubernetesServiceConnection: '${{ parameters.k8sconn }}'
+      namespace: '${{ parameters.namesapce }}'
+      manifests: deployterra.yml
+      rolloutStatusTimeout: 10

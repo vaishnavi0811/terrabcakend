@@ -1,15 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: terracloud
-  namespace: terracloud
+  name: terracloud-${env}
   labels:
-      app: terracloud
+      app: terracloud-${env}
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: terracloud
+      app: terracloud-${env}
   strategy:
      rollingUpdate:
          maxSurge: 25%
@@ -18,17 +17,17 @@ spec:
   template:
     metadata:
       labels:
-        app: terracloud
+        app: terracloud-${env}
     spec:
       imagePullSecrets:
-          - name: nginx-image
+          - name: ${secret}
       containers:
       - name: backendapi
-        image: contentapp.azurecr.io/terracloud:v0
+        image: ${registry}.azurecr.io/terracloud:${imagetag}
         imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: "2Gi"
+            memory: "500Mi"
             cpu: "500m"
         ports:
         - containerPort: 9000
@@ -38,15 +37,36 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name:  terrabackend
-  namespace: terracloud
+  name:  terrabackend-${env}
   annotations:
       service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   selector:
-    app:  terracloud
+    app:  terracloud-${env}
   type:  LoadBalancer
   ports:
   - name:  terraapiport
     port:  80
     targetPort:  9000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/modsecurity-snippet: |
+      SecRuleEngine On
+      SecRequestBodyLimit 15107200
+      SecAuditLog /dev/stdout
+  name: terracloud-${env}
+spec:
+  rules:
+    - host: terracloud-${env}.ey.net
+      http:
+        paths:
+          - backend:
+              serviceName: terrabackend
+              servicePort: 80
+            path: /(.*)

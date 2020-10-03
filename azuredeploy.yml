@@ -1,0 +1,59 @@
+parameters:
+  - name: image
+    displayName: Pool Image
+    default: ubuntu-latest
+    values:
+    - windows-latest
+    - vs2017-win2016
+    - ubuntu-latest
+    - ubuntu-16.04
+    - macOS-latest
+    - macOS-10.14
+  - name: registry
+    displayName: ACR name
+    default: contentapp
+  - name: namespace
+    displayName: Namespace
+  - name: conn
+    displayName: Kubernetes connection
+  - name: imageSecret
+    displayName: Image secret
+  - name: env
+    displayName: Environment
+    values:
+    - Dev
+    - QA
+    - Prod
+
+stages:
+  - stage: GolangBuild
+    displayName: Build golan application
+    jobs:
+      - job: DockerBuild
+        displayName: Build docker image
+        pool:
+          vmImage: ${{ parameters.image }}
+        steps:
+          - task: Docker@2
+            displayName: buildAndPush
+            inputs:
+              containerRegistry: '${{ parameters.registry }}'
+              repository: terracloud
+  - stage: DeployBackend
+    displayName: Deploy into AKS
+    jobs:
+    - deployment: Deploy
+      environment: 'Development'
+      pool:
+        vmImage: ${{ parameters.image }}
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - template: kubedeploy.yml
+                parameters:
+                  namespace: ${{ parameters.namespace }}
+                  k8sconn: ${{ parameters.conn }}
+                  imageSecret: ${{ parameters.imageSecret }}
+                  registry: ${{ parameters.registry }}
+                  env: ${{ parameters.env }}

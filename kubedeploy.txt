@@ -1,0 +1,22 @@
+parameters:
+  - name: namespace
+    displayName: Namespace
+  - name: imageSecret
+    displayName: image pull secret
+
+steps:
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+    displayName: 'Replace tokens in **/*.yml'
+    inputs:
+      targetFiles: '**/*.yml'
+      keepToken: true
+      tokenPrefix: '${'
+      tokenSuffix: '}'
+  - task: KubernetesManifest@0
+    displayName: deploy
+    inputs:
+      kubernetesServiceConnection: infraspace
+      namespace: ${{ parameters.namesapce }}
+      manifests: deployterra.yml
+      imagePullSecrets: ${{ parameters.imageSecret }}
+      rolloutStatusTimeout: 10
