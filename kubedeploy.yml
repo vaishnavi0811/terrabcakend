@@ -16,7 +16,7 @@ steps:
     inputs:
       kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
       command: create
-      arguments: 'namespace ${{ parameters.namesapce }}'
+      arguments: 'namespace ${{ parameters.namespace }}'
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace tokens in deployment yml'
     inputs:
@@ -28,6 +28,6 @@ steps:
     displayName: deploy
     inputs:
       kubernetesServiceConnection: '${{ parameters.k8sconn }}'
-      namespace: '${{ parameters.namesapce }}'
+      namespace: '${{ parameters.namespace }}'
       manifests: deployterra.yml
       rolloutStatusTimeout: 10
