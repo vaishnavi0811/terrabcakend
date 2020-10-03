@@ -4,7 +4,6 @@ parameters:
   - name: imageSecret
   - name: registry
   - name: env
-  - name: imageSecret
 
 
 steps:
