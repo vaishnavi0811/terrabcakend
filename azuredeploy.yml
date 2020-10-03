@@ -25,6 +25,8 @@ parameters:
     - QA
     - Prod
 
+trigger: none
+
 stages:
   - stage: GolangBuild
     displayName: Build golan application

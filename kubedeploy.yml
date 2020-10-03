@@ -5,8 +5,15 @@ parameters:
   - name: registry
   - name: env
 
+resources:
+  repositories:
+  - repository: k8syaml
+    type: git
+    endpoint: MyAzureReposGitServiceConnection
+    name: backend
 
 steps:
+  - checkout: self
   - bash: echo "##vso[task.setvariable variable=secret;isOutput=true]${{ parameters.imageSecret }}"
   - bash: echo "##vso[task.setvariable variable=imagetag;isOutput=true]$(Build.BuildId)"
   - bash: echo "##vso[task.setvariable variable=registry;isOutput=true]${{ parameters.registry }}"
