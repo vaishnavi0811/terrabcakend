@@ -11,6 +11,8 @@ parameters:
     - macOS-10.14
   - name: namespace
     displayName: Namespace
+  - name: createnamespace
+    type: boolean
   - name: conn
     default: infraspace
     displayName: Kubernetes connection
@@ -46,3 +48,4 @@ stages:
                 parameters:
                   namespace: ${{ parameters.namespace }}
                   k8sconn: ${{ parameters.conn }}
+                  createnamespace: ${{ parameters.createnamespace }}

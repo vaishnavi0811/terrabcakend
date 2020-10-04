@@ -1,10 +1,12 @@
 parameters:
   - name: namespace
   - name: k8sconn
+  - name: createnamespace
 
 steps:
   - checkout: self
   - task: Kubernetes@1
+    condition: eq('${{ parameters.createnamespace }}', true)
     displayName: 'create namespace'
     inputs:
       kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
