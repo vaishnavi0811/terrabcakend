@@ -67,6 +67,6 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: terrabackend
+              serviceName: terrabackend${env}
               servicePort: 80
             path: /(.*)
