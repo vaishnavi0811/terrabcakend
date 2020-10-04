@@ -9,22 +9,11 @@ parameters:
     - ubuntu-16.04
     - macOS-latest
     - macOS-10.14
-  - name: registry
-    displayName: ACR name
-    default: contentapp
   - name: namespace
     displayName: Namespace
   - name: conn
     default: infraspace
     displayName: Kubernetes connection
-  - name: imageSecret
-    displayName: Image secret
-  - name: env
-    displayName: Environment
-    values:
-    - Dev
-    - QA
-    - Prod
 
 trigger: none
 
@@ -57,6 +46,3 @@ stages:
                 parameters:
                   namespace: ${{ parameters.namespace }}
                   k8sconn: ${{ parameters.conn }}
-                  imageSecret: ${{ parameters.imageSecret }}
-                  registry: ${{ parameters.registry }}
-                  env: ${{ parameters.env }}
