@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: terracloud-${env}
+  name: terracloud${env}
   labels:
-      app: terracloud-${env}
+      app: terracloud${env}
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: terracloud-${env}
+      app: terracloud${env}
   strategy:
      rollingUpdate:
          maxSurge: 25%
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: terracloud-${env}
+        app: terracloud${env}
     spec:
       imagePullSecrets:
           - name: ${secret}
@@ -37,12 +37,12 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name:  terrabackend-${env}
+  name:  terrabackend${env}
   annotations:
       service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   selector:
-    app:  terracloud-${env}
+    app:  terracloud${env}
   type:  LoadBalancer
   ports:
   - name:  terraapiport
@@ -60,10 +60,10 @@ metadata:
       SecRuleEngine On
       SecRequestBodyLimit 15107200
       SecAuditLog /dev/stdout
-  name: terracloud-${env}
+  name: terracloud${env}
 spec:
   rules:
-    - host: terracloud-${env}.ey.net
+    - host: terracloud${env}.ey.net
       http:
         paths:
           - backend:
