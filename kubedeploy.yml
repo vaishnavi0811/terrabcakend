@@ -7,10 +7,11 @@ parameters:
 
 steps:
   - checkout: self
-  - bash: echo "##vso[task.setvariable variable=secret;isOutput=true]${{ parameters.imageSecret }}"
-  - bash: echo "##vso[task.setvariable variable=imagetag;isOutput=true]$(Build.BuildId)"
-  - bash: echo "##vso[task.setvariable variable=registry;isOutput=true]${{ parameters.registry }}"
-  - bash: echo "##vso[task.setvariable variable=env;isOutput=true]${{ parameters.env }}"
+  - bash: echo "##vso[task.setvariable variable=secret]${{ parameters.imageSecret }}"
+  - bash: echo "##vso[task.setvariable variable=imagetag]$(Build.BuildId)"
+  - bash: echo "##vso[task.setvariable variable=registry]${{ parameters.registry }}"
+  - bash: echo "##vso[task.setvariable variable=env]${{ parameters.env }}"
+  - bash: echo $(imagetag)"
   - task: Kubernetes@1
     displayName: 'create namespace'
     inputs:
@@ -20,7 +21,7 @@ steps:
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace tokens in deployment yml'
     inputs:
-      targetFiles: '**/*.yml'
+      targetFiles: 'deployterra.yml'
       keepToken: true
       tokenPrefix: '${'
       tokenSuffix: '}'
