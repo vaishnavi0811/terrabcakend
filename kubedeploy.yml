@@ -25,4 +25,4 @@ steps:
       kubernetesServiceConnection: '${{ parameters.k8sconn }}'
       namespace: '${{ parameters.namespace }}'
       manifests: deployterra.yml
-      rolloutStatusTimeout: 10
+      rolloutStatusTimeout: 30

@@ -1,0 +1,6 @@
+{
+    "env":"$(Environment.Name)",
+    "imagetag":"$(Build.BuildId)",
+    "registry":"contentapp",
+    "secret":"nginx-image"
+}
