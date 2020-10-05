@@ -37,7 +37,7 @@ stages:
     displayName: Deploy into AKS
     jobs:
     - deployment: Deploy
-      environment: 'Development'
+      environment: 'dev'
       pool:
         vmImage: ${{ parameters.image }}
       strategy:
