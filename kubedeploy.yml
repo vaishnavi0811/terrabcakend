@@ -17,7 +17,7 @@ steps:
       command: create
       arguments: 'namespace ${{ parameters.namespace }}'
   - task: PowerShell@2
-    displayName: 'PowerShell Script'
+    displayName: 'convert params to vars'
     inputs:
       targetType: filePath
       filePath: ./convertvars.ps1
