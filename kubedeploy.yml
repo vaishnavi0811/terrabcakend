@@ -2,6 +2,12 @@ parameters:
   - name: namespace
   - name: k8sconn
   - name: createnamespace
+  - name: env
+  - name: imagetag
+  - name: registry
+  - name: secret
+
+trigger: none
 
 steps:
   - checkout: self
@@ -12,6 +18,12 @@ steps:
       kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
       command: create
       arguments: 'namespace ${{ parameters.namespace }}'
+  - task: PowerShell@2
+    displayName: 'PowerShell Script'
+    inputs:
+      targetType: filePath
+      filePath: ./convertvars.ps1
+      arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }} -secret ${{ parameters.secret }}'
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace tokens in deployment yml'
     inputs:
@@ -19,6 +31,7 @@ steps:
       keepToken: true
       tokenPrefix: '${'
       tokenSuffix: '}'
+      variableFiles: '**/variables.json'
   - task: KubernetesManifest@0
     displayName: deploy
     inputs:

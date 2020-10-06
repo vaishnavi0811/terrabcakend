@@ -13,8 +13,11 @@ parameters:
     displayName: Namespace
   - name: createnamespace
     type: boolean
+  - name: registry
+    type: string
+  - name: secret
   - name: conn
-    default: infraspace
+    default: serviceaccount
     displayName: Kubernetes connection
 
 trigger: none
@@ -38,6 +41,11 @@ stages:
     jobs:
     - deployment: Deploy
       environment: 'dev'
+      variables:
+        - name: env
+          value: $(Environment.Name)
+        - name: imagetag
+          value: $(Build.BuildId)
       pool:
         vmImage: ${{ parameters.image }}
       strategy:
@@ -49,3 +57,7 @@ stages:
                   namespace: ${{ parameters.namespace }}
                   k8sconn: ${{ parameters.conn }}
                   createnamespace: ${{ parameters.createnamespace }}
+                  env: $(env)
+                  imagetag: $(imagetag)
+                  registry: ${{ parameters.registry }}
+                  secret: ${{ parameters.registry }}
