@@ -63,7 +63,7 @@ metadata:
   name: terracloud${env}
 spec:
   rules:
-    - host: terracloud${env}.ey.net
+    - host: terracloud${env}.sevenchannels.in
       http:
         paths:
           - backend:
