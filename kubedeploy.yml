@@ -7,8 +7,6 @@ parameters:
   - name: registry
   - name: secret
 
-trigger: none
-
 steps:
   - checkout: self
   - task: Kubernetes@1
