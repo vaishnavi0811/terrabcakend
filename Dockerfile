@@ -8,7 +8,7 @@ RUN go get -u github.com/revel/revel
 RUN go get -u github.com/revel/cmd/revel
 RUN go get -u github.com/go-playground/validator
 RUN go get -u github.com/hashicorp/go-tfe
-RUn go get -u github.com/lib/pq
+RUN go get -u github.com/lib/pq
 RUN go get -u github.com/iancoleman/strcase
 #build revel app
 RUN revel build terracloud terracloud 
