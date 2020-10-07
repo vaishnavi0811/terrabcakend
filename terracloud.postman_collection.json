@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "74ea3c53-a776-4adf-9e31-d47df953b300",
+		"name": "terracloud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getruns",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://terraclouddev.sevenchannels.in/getRuns/workspace/ws-jBf7St7V2Sa7fLRZ",
+					"protocol": "http",
+					"host": [
+						"terraclouddev",
+						"sevenchannels",
+						"in"
+					],
+					"path": [
+						"getRuns",
+						"workspace",
+						"ws-jBf7St7V2Sa7fLRZ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get workspace",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://terraclouddev.sevenchannels.in/workspaceID/orgs/ClDevTeam/workspaces/space3",
+					"protocol": "http",
+					"host": [
+						"terraclouddev",
+						"sevenchannels",
+						"in"
+					],
+					"path": [
+						"workspaceID",
+						"orgs",
+						"ClDevTeam",
+						"workspaces",
+						"space3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ceate variables",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Key\":\"clientid\",\r\n    \"Value\":\"applicationid\",\r\n    \"Category\":\"terraform\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://34.234.158.150:9000/createVariables/orgs/ClDevTeam/workspaces/space1",
+					"protocol": "http",
+					"host": [
+						"34",
+						"234",
+						"158",
+						"150"
+					],
+					"port": "9000",
+					"path": [
+						"createVariables",
+						"orgs",
+						"ClDevTeam",
+						"workspaces",
+						"space1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create workspace",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"AutoApply\":false,\r\n    \"FileTriggersEnabled\":false,\r\n    \"Name\":\"space3\",\r\n    \"QueueAllRuns\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/createWorkspace/orgs/ClDevTeam/workspaces/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"createWorkspace",
+						"orgs",
+						"ClDevTeam",
+						"workspaces",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "config and plan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": [],
+							"disabled": true
+						},
+						{
+							"key": "autoQueue",
+							"value": "yes",
+							"type": "text",
+							"disabled": true
+						}
+					],
+					"options": {
+						"formdata": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/plan/workspace/ws-jBf7St7V2Sa7fLRZ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"plan",
+						"workspace",
+						"ws-jBf7St7V2Sa7fLRZ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "print plan",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://34.234.158.150:9000/plan/plan-euUhKrYtP6VoD53A",
+					"protocol": "http",
+					"host": [
+						"34",
+						"234",
+						"158",
+						"150"
+					],
+					"port": "9000",
+					"path": [
+						"plan",
+						"plan-euUhKrYtP6VoD53A"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get run",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ApplyMessage\": \"Triggered from PostMan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://34.234.158.150:9000/run/run-Y2bMXbvV61Wz7NwR",
+					"protocol": "http",
+					"host": [
+						"34",
+						"234",
+						"158",
+						"150"
+					],
+					"port": "9000",
+					"path": [
+						"run",
+						"run-Y2bMXbvV61Wz7NwR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ApplyMessage\": \"Applied from PostMan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://34.234.158.150:9000/apply/run/run-Y2bMXbvV61Wz7NwR",
+					"protocol": "http",
+					"host": [
+						"34",
+						"234",
+						"158",
+						"150"
+					],
+					"port": "9000",
+					"path": [
+						"apply",
+						"run",
+						"run-Y2bMXbvV61Wz7NwR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get apply log",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://34.234.158.150:9000/apply/run/run-Y2bMXbvV61Wz7NwR",
+					"protocol": "http",
+					"host": [
+						"34",
+						"234",
+						"158",
+						"150"
+					],
+					"port": "9000",
+					"path": [
+						"apply",
+						"run",
+						"run-Y2bMXbvV61Wz7NwR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create azure windows vm",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"location\":\"eastus\",\r\n    \"vm_name\": \"euwmvm01\",\r\n    \"rg_name\": \"Testing\",\r\n    \"admin_username\":\"winuser\",\r\n    \"admin_password\":\"Password@2020\",\r\n    \"vm_sku\":\"2016-Datacenter\",\r\n    \"vm_size\":\"Standard_DS1_v2\",\r\n    \"osdatadisksizeingb\":127,\r\n    \"data_disks\":[0,120],\r\n    \"vnet_name\": \"vnet001\",\r\n    \"Vnet_rGroup\": \"32943\",\r\n    \"subnet_name\":\"sbn001\",\r\n    \"subscription_id\":\"3dc3cd1a-d5cd-4e3e-a648-b2253048af83\",\r\n    \"tags\":{\r\n        \"created-by\":\"32943\",\r\n        \"deployment_id\":\"ADVMMP\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/orgs/ClDevTeam/workspace/space3/createazuremvm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"orgs",
+						"ClDevTeam",
+						"workspace",
+						"space3",
+						"createazuremvm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createvmwithoutvnet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userToken",
+						"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"location\":\"eastus\",\r\n    \"vm_name\": \"euwmvm01\",\r\n    \"rg_name\": \"Testing\",\r\n    \"admin_username\":\"winuser\",\r\n    \"admin_password\":\"Password@2020\",\r\n    \"vm_sku\":\"2016-Datacenter\",\r\n    \"vm_size\":\"Standard_DS1_v2\",\r\n    \"osdatadisksizeingb\":127,\r\n    \"data_disks\":[60,120],\r\n    \"vnet_name\" :\"vnet001\",\r\n    \"subnet_name\":\"sbn001\",\r\n    \"subscription_Id\":\"3dc3cd1a-d5cd-4e3e-a648-b2253048af83\"\r\n}\r\n{\r\n    \"location\":\"eastus\",\r\n    \"vm_name\": \"euwmvm01\",\r\n    \"rg_name\": \"Testing\",\r\n    \"admin_username\":\"winuser\",\r\n    \"admin_password\":\"Password@2020\",\r\n    \"vm_sku\":\"2016-Datacenter\",\r\n    \"vm_size\":\"Standard_DS1_v2\",\r\n    \"osdatadisksizeingb\":127,\r\n    \"data_disks\":[60,120],\r\n    \"vnet_name\" :\"vnet001\",\r\n    \"subnet_name\":\"sbn001\",\r\n    \"subscription_Id\":\"3dc3cd1a-d5cd-4e3e-a648-b2253048af83\"\r\n}\r\n{\r\n    \"location\":\"eastus\",\r\n    \"vm_name\": \"euwmvm01\",\r\n    \"rg_name\": \"Testing\",\r\n    \"admin_username\":\"winuser\",\r\n    \"admin_password\":\"Password@2020\",\r\n    \"vm_sku\":\"2016-Datacenter\",\r\n    \"vm_size\":\"Standard_DS1_v2\",\r\n    \"osdatadisksizeingb\":127,\r\n    \"data_disks\":[60,120],\r\n    \"vnet_name\" :\"vnet001\",\r\n    \"subnet_name\":\"sbn001\",\r\n    \"subscription_Id\":\"3dc3cd1a-d5cd-4e3e-a648-b2253048af83\"\r\n}{\r\n    \"location\":\"eastus\",\r\n    \"vm_name\": \"euwmvm01\",\r\n    \"rg_name\": \"Testing\",\r\n    \"admin_username\":\"winuser\",\r\n    \"admin_password\":\"Password@2020\",\r\n    \"vm_sku\":\"2016-Datacenter\",\r\n    \"vm_size\":\"Standard_DS1_v2\",\r\n    \"osdatadisksizeingb\":127,\r\n    \"data_disks\":[60,120],\r\n    \"vnet_name\" :\"vnet001\",\r\n    \"subnet_name\":\"sbn001\",\r\n    \"subscription_Id\":\"3dc3cd1a-d5cd-4e3e-a648-b2253048af83\"\r\n}{\r\n    \"location\":\"eastus\",\r\n    \"vm_name\": \"euwmvm01\",\r\n    \"rg_name\": \"Testing\",\r\n    \"admin_username\":\"winuser\",\r\n    \"admin_password\":\"Password@2020\",\r\n    \"vm_sku\":\"2016-Datacenter\",\r\n    \"vm_size\":\"Standard_DS1_v2\",\r\n    \"osdatadisksizeingb\":127,\r\n    \"data_disks\":[60,120],\r\n    \"vnet_name\" :\"vnet001\",\r\n    \"subnet_name\":\"sbn001\",\r\n    \"subscription_Id\":\"3dc3cd1a-d5cd-4e3e-a648-b2253048af83\"\r\n}{\r\n    \"location\":\"eastus\",\r\n    \"vm_name\": \"euwmvm01\",\r\n    \"rg_name\": \"Testing\",\r\n    \"admin_username\":\"winuser\",\r\n    \"admin_password\":\"Password@2020\",\r\n    \"vm_sku\":\"2016-Datacenter\",\r\n    \"vm_size\":\"Standard_DS1_v2\",\r\n    \"osdatadisksizeingb\":127,\r\n    \"data_disks\":[60,120],\r\n    \"vnet_name\" :\"vnet001\",\r\n    \"subnet_name\":\"sbn001\",\r\n    \"subscription_Id\":\"3dc3cd1a-d5cd-4e3e-a648-b2253048af83\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/orgs/ClDevTeam/workspace/space3/createazuremvm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"orgs",
+						"ClDevTeam",
+						"workspace",
+						"space3",
+						"createazuremvm"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
