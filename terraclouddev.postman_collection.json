@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"AutoApply\":false,\r\n    \"FileTriggersEnabled\":false,\r\n    \"Name\":\"space3\",\r\n    \"QueueAllRuns\":true\r\n}",
+					"raw": "{\r\n    \"AutoApply\":{{autoapply}},\r\n    \"FileTriggersEnabled\":{{FileTriggersEnabled}},\r\n    \"Name\":\"{{workspaceName}}\",\r\n    \"QueueAllRuns\":{{QueueAllRuns}}\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
