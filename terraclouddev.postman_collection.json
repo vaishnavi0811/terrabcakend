@@ -10,6 +10,20 @@
 			"item": [
 				{
 					"name": "create workspace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d82b4126-a638-49ba-a09f-d07bedeef160",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -56,30 +70,35 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "createworkspace",
+			"name": "getworkspace",
 			"item": [
 				{
-					"name": "create workspace",
+					"name": "get workspace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "52e57373-4fd1-4411-b17e-b7291aaeb437",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "userToken",
-								"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
-								"type": "text"
+								"type": "text",
+								"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"AutoApply\":{{autoapply}},\r\n    \"FileTriggersEnabled\":{{FileTriggersEnabled}},\r\n    \"Name\":\"{{workspaceName}}\",\r\n    \"QueueAllRuns\":{{QueueAllRuns}}\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://terraclouddev.sevenchannels.in/createWorkspace/orgs/ClDevTeam/workspaces/",
+							"raw": "http://terraclouddev.sevenchannels.in/workspaceID/orgs/ClDevTeam/workspaces/space3",
 							"protocol": "http",
 							"host": [
 								"terraclouddev",
@@ -87,11 +106,11 @@
 								"in"
 							],
 							"path": [
-								"createWorkspace",
+								"workspaceID",
 								"orgs",
 								"ClDevTeam",
 								"workspaces",
-								""
+								"space3"
 							]
 						}
 					},
