@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="terraclouddev" tests="2" time="0.670">
+  <testsuite name="modsecurity / create workspace" id="00e01dcf-85d1-4d61-ac59-d52b64d81a5b" timestamp="2020-10-08T07:54:58.300Z" tests="0" failures="0" errors="0" time="0.081"/>
+  <testsuite name="createworkspace / create workspace" id="04160251-a96a-4f94-b80f-a5eeba0021d8" timestamp="2020-10-08T07:54:58.300Z" tests="0" failures="0" errors="0" time="0.589"/>
+</testsuites>
