@@ -13,7 +13,7 @@ steps:
 - task: qetza.replacetokens.replacetokens-task.replacetokens@3
   displayName: 'Replace tokens in deployment yml'
   inputs:
-    targetFiles: '**/deployterra.yml'
+    targetFiles: '**/dev.postman_environment.json'
     keepToken: true
     tokenPrefix: '${'
     tokenSuffix: '}'
