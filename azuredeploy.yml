@@ -62,3 +62,8 @@ stages:
                   registry: ${{ parameters.registry }}
                   secret: ${{ parameters.registry }}
               - template: apitesting.yml
+                parameters:
+                  env: $(env)
+                  imagetag: $(imagetag)
+                  registry: ${{ parameters.registry }}
+                  secret: ${{ parameters.registry }}

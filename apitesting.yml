@@ -1,4 +1,23 @@
+parameters:
+  - name: env
+  - name: imagetag
+  - name: registry
+  - name: secret
 steps:
+- task: PowerShell@2
+  displayName: 'convert params to vars'
+  inputs:
+    targetType: filePath
+    filePath: ./convertvars.ps1
+    arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }} -secret ${{ parameters.secret }}'
+- task: qetza.replacetokens.replacetokens-task.replacetokens@3
+  displayName: 'Replace tokens in deployment yml'
+  inputs:
+    targetFiles: '**/deployterra.yml'
+    keepToken: true
+    tokenPrefix: '${'
+    tokenSuffix: '}'
+    variableFiles: '**/variables.json'
 - task: carlowahlstedt.NewmanPostman.NewmanPostman.NewmanPostman@4
   displayName: 'Newman - Postman'
   inputs:
