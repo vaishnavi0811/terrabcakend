@@ -114,74 +114,11 @@
 				}
 			],
 			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "create variables",
-			"item": [
-				{
-					"name": "ceate variables",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "0c4eb3b1-f43d-4c51-bf76-187a94b51d25",
-								"exec": [
-									"const body = pm.response.toJSON();\r",
-									"pm.test(\"Expects response to be json\",function(){\r",
-									"    pm.response.to.have.body(JSON.stringify(body))\r",
-									"});\r",
-									"pm.test(\"Expects variable id in the json\",function(){\r",
-									"    pm.expect(body).to.have.property(\"ID\");\r",
-									"}\r",
-									");\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "userToken",
-								"type": "text",
-								"value": "{{usertoken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"Key\":\"{{variablekey}}\",\r\n    \"Value\":\"{{variablevalue}}\",\r\n    \"Category\":\"{{varcategory}}\",\r\n    \"Description\":\"{{vardescription}}\",\r\n    \"Sensitive\":{{varsensitive}}\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{terracloudurl}}/createVariables/orgs/ClDevTeam/workspaces/space3",
-							"protocol": "http",
-							"host": [
-								"{{terracloudurl}}"
-							],
-							"path": [
-								"createVariables",
-								"orgs",
-								"ClDevTeam",
-								"workspaces",
-								"space3"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
 		}
 	],
 	"variable": [
 		{
-			"id": "a07a3a18-f2be-45cf-8ad0-644199e5f2e9",
+			"id": "934c7fdd-f622-48af-aad3-b9ded0428792",
 			"key": "useragent",
 			"value": "Nikto"
 		}
