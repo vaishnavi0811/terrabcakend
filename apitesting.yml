@@ -12,3 +12,10 @@ steps:
     htmlExtraLogs: false
     htmlExtraTestPaging: false
   continueOnError: true
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results **/newman-*.xml'
+  inputs:
+    testResultsFiles: '**/newman-*.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)/newman'
+    mergeTestResults: true
+    testRunTitle: terraclouddev
