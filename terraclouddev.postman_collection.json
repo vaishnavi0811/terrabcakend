@@ -16,7 +16,7 @@
 							"script": {
 								"id": "d82b4126-a638-49ba-a09f-d07bedeef160",
 								"exec": [
-									"pm.test(\"Status code is 403\", function () {\r",
+									"pm.test(\"Status code should be 403 for malicious user agent\", function () {\r",
 									"    pm.response.to.have.status(403);\r",
 									"});"
 								],
@@ -29,12 +29,12 @@
 						"header": [
 							{
 								"key": "userToken",
-								"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY",
+								"value": "{{usertoken}}",
 								"type": "text"
 							},
 							{
 								"key": "User-Agent",
-								"value": "Nikto",
+								"value": "{{useragent}}",
 								"type": "text"
 							}
 						],
@@ -48,12 +48,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://terraclouddev.sevenchannels.in/createWorkspace/orgs/ClDevTeam/workspaces/",
+							"raw": "http://{{terracloudurl}}/createWorkspace/orgs/ClDevTeam/workspaces/",
 							"protocol": "http",
 							"host": [
-								"terraclouddev",
-								"sevenchannels",
-								"in"
+								"{{terracloudurl}}"
 							],
 							"path": [
 								"createWorkspace",
@@ -94,16 +92,14 @@
 							{
 								"key": "userToken",
 								"type": "text",
-								"value": "JAq94WOOoR9s3g.atlasv1.jj40mNZ3GFoCGH8FVNrD7xvmQHnHaQmUZwtMKY7UVsXv0eo6f6nCC13BD3WtAyK1VBY"
+								"value": "{{usertoken}}"
 							}
 						],
 						"url": {
-							"raw": "http://terraclouddev.sevenchannels.in/workspaceID/orgs/ClDevTeam/workspaces/space3",
+							"raw": "http://{{terracloudurl}}/workspaceID/orgs/ClDevTeam/workspaces/space3",
 							"protocol": "http",
 							"host": [
-								"terraclouddev",
-								"sevenchannels",
-								"in"
+								"{{terracloudurl}}"
 							],
 							"path": [
 								"workspaceID",
@@ -118,6 +114,76 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "create variables",
+			"item": [
+				{
+					"name": "ceate variables",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c4eb3b1-f43d-4c51-bf76-187a94b51d25",
+								"exec": [
+									"const body = pm.response.toJSON();\r",
+									"pm.test(\"Expects response to be json\",function(){\r",
+									"    pm.response.to.have.body(JSON.stringify(body))\r",
+									"});\r",
+									"pm.test(\"Expects variable id in the json\",function(){\r",
+									"    pm.expect(body).to.have.property(\"ID\");\r",
+									"}\r",
+									");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "userToken",
+								"type": "text",
+								"value": "{{usertoken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Key\":\"{{variablekey}}\",\r\n    \"Value\":\"{{variablevalue}}\",\r\n    \"Category\":\"{{varcategory}}\",\r\n    \"Description\":\"{{vardescription}}\",\r\n    \"Sensitive\":{{varsensitive}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{terracloudurl}}/createVariables/orgs/ClDevTeam/workspaces/space3",
+							"protocol": "http",
+							"host": [
+								"{{terracloudurl}}"
+							],
+							"path": [
+								"createVariables",
+								"orgs",
+								"ClDevTeam",
+								"workspaces",
+								"space3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "a07a3a18-f2be-45cf-8ad0-644199e5f2e9",
+			"key": "useragent",
+			"value": "Nikto"
 		}
 	],
 	"protocolProfileBehavior": {}

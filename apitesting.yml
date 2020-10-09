@@ -1,0 +1,14 @@
+steps:
+- task: carlowahlstedt.NewmanPostman.NewmanPostman.NewmanPostman@4
+  displayName: 'Newman - Postman'
+  inputs:
+    Contents: '**/terraclouddev.postman_collection.json'
+    environment: 'dev.postman_environment.json'
+    ignoreRedirect: false
+    bail: false
+    sslInsecure: false
+    reporters: 'cli,junit'
+    htmlExtraDarkTheme: false
+    htmlExtraLogs: false
+    htmlExtraTestPaging: false
+  continueOnError: true
