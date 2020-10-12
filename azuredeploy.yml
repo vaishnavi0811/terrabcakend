@@ -9,8 +9,6 @@ parameters:
     - ubuntu-16.04
     - macOS-latest
     - macOS-10.14
-  - name: namespace
-    displayName: Namespace
   - name: createnamespace
     type: boolean
   - name: registry
@@ -24,7 +22,7 @@ trigger: none
 
 stages:
   - stage: GolangBuild
-    displayName: Build golan application
+    displayName: Build golang application
     jobs:
       - job: DockerBuild
         displayName: Build docker image
@@ -54,7 +52,6 @@ stages:
             steps:
               - template: kubedeploy.yml
                 parameters:
-                  namespace: ${{ parameters.namespace }}
                   k8sconn: ${{ parameters.conn }}
                   createnamespace: ${{ parameters.createnamespace }}
                   env: $(env)

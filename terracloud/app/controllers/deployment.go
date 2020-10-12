@@ -9,7 +9,6 @@ import (
 	"terracloud/app/templates"
 
 	"github.com/hashicorp/go-tfe"
-	"github.com/joho/godotenv"
 	"github.com/revel/revel"
 )
 
@@ -23,7 +22,7 @@ func (c Deployment) ConfigAndPlan(workspaceID string) revel.Result {
 	path, err := os.Getwd()
 	filepath := path + "\\" + workspaceID + "\\"
 	//filepath := "/home/ubuntu/terraform/apicall"
-	err = godotenv.Load()
+
 	token := os.Getenv("userToken")
 	////userToken := c.Request.Header.Get("userToken")
 	config := &tfe.Config{
@@ -54,7 +53,7 @@ func (c Deployment) ConfigAndPlan(workspaceID string) revel.Result {
 }
 func (c Deployment) PrintPlan(planID string) revel.Result {
 	//userToken := c.Request.Header.Get("userToken")
-	err := godotenv.Load()
+
 	token := os.Getenv("userToken")
 	config := &tfe.Config{
 		Token: token,
@@ -70,7 +69,7 @@ func (c Deployment) PrintPlan(planID string) revel.Result {
 }
 func (c Deployment) ApplyPlan(runID string) revel.Result {
 	//userToken := c.Request.Header.Get("userToken")
-	err := godotenv.Load()
+
 	token := os.Getenv("userToken")
 	config := &tfe.Config{
 		Token: token,
@@ -93,7 +92,7 @@ func (c Deployment) ApplyPlan(runID string) revel.Result {
 func (c Deployment) CreateVariable(org string, workspaceName string) revel.Result {
 	//userToken := c.Request.Header.Get("userToken")
 
-	token := revel.Config.StringDefault("terraform.token", "")
+	token := os.Getenv("userToken")
 	fmt.Println(token)
 	config := &tfe.Config{
 		Token: token,
@@ -116,7 +115,7 @@ func (c Deployment) CreateVariable(org string, workspaceName string) revel.Resul
 }
 func (c Deployment) CreateWorkspace(org string, workspaceName string) revel.Result {
 	//userToken := c.Request.Header.Get("userToken")
-	err := godotenv.Load()
+
 	token := os.Getenv("userToken")
 	config := &tfe.Config{
 		Token: token,
@@ -139,7 +138,7 @@ func (c Deployment) CreateWorkspace(org string, workspaceName string) revel.Resu
 func (c Deployment) GetWorkspace(org string, workspaceName string) revel.Result {
 	//var secureParams *functions.SecureParams
 	//userToken := c.Request.Header.Get("userToken")
-	//err := godotenv.Load()
+
 	token := os.Getenv("userToken")
 	config := &tfe.Config{
 		Token: token,
@@ -159,7 +158,7 @@ func (c Deployment) GetWorkspace(org string, workspaceName string) revel.Result 
 func (c Deployment) GetRuns(org string, workspaceName string) revel.Result {
 	//var secureParams *functions.SecureParams
 	//userToken := c.Request.Header.Get("userToken")
-	err := godotenv.Load()
+
 	token := os.Getenv("userToken")
 	config := &tfe.Config{
 		Token: token,
@@ -179,7 +178,7 @@ func (c Deployment) GetRuns(org string, workspaceName string) revel.Result {
 }
 func (c Deployment) GetVars(org string, workspaceName string) revel.Result {
 	//userToken := c.Request.Header.Get("userToken")
-	err := godotenv.Load()
+
 	token := os.Getenv("userToken")
 	config := &tfe.Config{
 		Token: token,
@@ -200,7 +199,7 @@ func (c Deployment) GetVars(org string, workspaceName string) revel.Result {
 }
 func (c Deployment) GetRun(runID string) revel.Result {
 	//userToken := c.Request.Header.Get("userToken")
-	err := godotenv.Load()
+
 	token := os.Getenv("userToken")
 	config := &tfe.Config{
 		Token: token,
@@ -220,7 +219,7 @@ func (c Deployment) GetRun(runID string) revel.Result {
 }
 func (c Deployment) PrintApplyLog(runID string) revel.Result {
 	//userToken := c.Request.Header.Get("userToken")
-	err := godotenv.Load()
+
 	token := os.Getenv("userToken")
 	config := &tfe.Config{
 		Token: token,

@@ -1,5 +1,4 @@
 parameters:
-  - name: namespace
   - name: k8sconn
   - name: createnamespace
   - name: env
@@ -15,7 +14,7 @@ steps:
     inputs:
       kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
       command: create
-      arguments: 'namespace ${{ parameters.namespace }}'
+      arguments: 'namespace terra${{ parameters.env }}'
   - task: PowerShell@2
     displayName: 'convert params to vars'
     inputs:
