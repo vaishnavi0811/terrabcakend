@@ -139,7 +139,7 @@ func (c Deployment) CreateWorkspace(org string, workspaceName string) revel.Resu
 func (c Deployment) GetWorkspace(org string, workspaceName string) revel.Result {
 	//var secureParams *functions.SecureParams
 	//userToken := c.Request.Header.Get("userToken")
-	err := godotenv.Load()
+	//err := godotenv.Load()
 	token := os.Getenv("userToken")
 	config := &tfe.Config{
 		Token: token,
