@@ -135,6 +135,16 @@ func createConfigVersion(ctx context.Context, client *tfe.Client, autoqueueruns 
 	//fmt.Println("your run is created")
 	return configVersionID
 }
+func GetVariables(ctx context.Context, client *tfe.Client, workspaceID string) (*tfe.VariableList, error) {
+	listOptions := tfe.ListOptions{
+		PageSize: 20,
+	}
+	variablelistOptions := tfe.VariableListOptions{
+		ListOptions: listOptions,
+	}
+	varList, err := client.Variables.List(ctx, workspaceID, variablelistOptions)
+	return varList, err
+}
 func CreateVariables(ctx context.Context, client *tfe.Client, workspaceID string, variableCreateOptions *tfe.VariableCreateOptions) (*tfe.Variable, error) {
 	//create terraform variable
 	variable, err := client.Variables.Create(ctx, workspaceID, *variableCreateOptions)

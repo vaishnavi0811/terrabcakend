@@ -20,7 +20,7 @@ GET     /run/:runID                 Deployment.GetRun
 GET     /apply/run/:runID               Deployment.PrintApplyLog
 POST     /orgs/:org/workspace/:workspaceName/createazuremvm                 Convert.AzureWindowsVM
 POST    /collect                                                            Convert.Collect
-
+POST    /orgs/:org/workspaces/:workspaceName/vars                           Deployment.GetVars
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

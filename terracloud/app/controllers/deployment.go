@@ -2,27 +2,32 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"terracloud/app/functions"
 	"terracloud/app/templates"
 
 	"github.com/hashicorp/go-tfe"
+	"github.com/joho/godotenv"
 	"github.com/revel/revel"
 )
 
 type Deployment struct {
 	*revel.Controller
 	apply *templates.ApplyPlan
+	token string
 }
 
 func (c Deployment) ConfigAndPlan(workspaceID string) revel.Result {
 	path, err := os.Getwd()
 	filepath := path + "\\" + workspaceID + "\\"
 	//filepath := "/home/ubuntu/terraform/apicall"
-	userToken := c.Request.Header.Get("userToken")
+	err = godotenv.Load()
+	token := os.Getenv("userToken")
+	////userToken := c.Request.Header.Get("userToken")
 	config := &tfe.Config{
-		Token: userToken,
+		Token: token,
 	}
 	client, err := tfe.NewClient(config)
 	if err != nil {
@@ -48,9 +53,11 @@ func (c Deployment) ConfigAndPlan(workspaceID string) revel.Result {
 	return c.RenderJSON(runDetails)
 }
 func (c Deployment) PrintPlan(planID string) revel.Result {
-	userToken := c.Request.Header.Get("userToken")
+	//userToken := c.Request.Header.Get("userToken")
+	err := godotenv.Load()
+	token := os.Getenv("userToken")
 	config := &tfe.Config{
-		Token: userToken,
+		Token: token,
 	}
 	client, err := tfe.NewClient(config)
 	if err != nil {
@@ -62,9 +69,11 @@ func (c Deployment) PrintPlan(planID string) revel.Result {
 	return c.RenderText(message)
 }
 func (c Deployment) ApplyPlan(runID string) revel.Result {
-	userToken := c.Request.Header.Get("userToken")
+	//userToken := c.Request.Header.Get("userToken")
+	err := godotenv.Load()
+	token := os.Getenv("userToken")
 	config := &tfe.Config{
-		Token: userToken,
+		Token: token,
 	}
 	client, err := tfe.NewClient(config)
 	if err != nil {
@@ -82,9 +91,12 @@ func (c Deployment) ApplyPlan(runID string) revel.Result {
 	return c.RenderText("Plan Applied")
 }
 func (c Deployment) CreateVariable(org string, workspaceName string) revel.Result {
-	userToken := c.Request.Header.Get("userToken")
+	//userToken := c.Request.Header.Get("userToken")
+
+	token := revel.Config.StringDefault("terraform.token", "")
+	fmt.Println(token)
 	config := &tfe.Config{
-		Token: userToken,
+		Token: token,
 	}
 	client, err := tfe.NewClient(config)
 	if err != nil {
@@ -96,14 +108,18 @@ func (c Deployment) CreateVariable(org string, workspaceName string) revel.Resul
 	workspaceID, err := functions.GetWorkspaceID(ctx, client, workspaceName, org)
 	variable, err := functions.CreateVariables(ctx, client, workspaceID, variableOptions)
 	if err != nil {
+		c.Response.Status = 409
 		return c.RenderText(err.Error())
 	}
+	c.Response.Status = 201
 	return c.RenderJSON(variable)
 }
 func (c Deployment) CreateWorkspace(org string, workspaceName string) revel.Result {
-	userToken := c.Request.Header.Get("userToken")
+	//userToken := c.Request.Header.Get("userToken")
+	err := godotenv.Load()
+	token := os.Getenv("userToken")
 	config := &tfe.Config{
-		Token: userToken,
+		Token: token,
 	}
 	client, err := tfe.NewClient(config)
 	if err != nil {
@@ -114,15 +130,19 @@ func (c Deployment) CreateWorkspace(org string, workspaceName string) revel.Resu
 	c.Params.BindJSON(&workspaceCreateOptions)
 	workspace, err := functions.CreateWorkspace(ctx, client, org, workspaceCreateOptions)
 	if err != nil {
+		c.Response.Status = 409
 		return c.RenderText(err.Error())
 	}
+	c.Response.Status = 201
 	return c.RenderJSON(workspace)
 }
 func (c Deployment) GetWorkspace(org string, workspaceName string) revel.Result {
 	//var secureParams *functions.SecureParams
-	userToken := c.Request.Header.Get("userToken")
+	//userToken := c.Request.Header.Get("userToken")
+	err := godotenv.Load()
+	token := os.Getenv("userToken")
 	config := &tfe.Config{
-		Token: userToken,
+		Token: token,
 	}
 	client, err := tfe.NewClient(config)
 	if err != nil {
@@ -131,31 +151,59 @@ func (c Deployment) GetWorkspace(org string, workspaceName string) revel.Result 
 	ctx := context.Background()
 	workspaceID, err := functions.GetWorkspaceID(ctx, client, workspaceName, org)
 	if err != nil {
+		c.Response.Status = 404
 		return c.RenderText(err.Error())
 	}
 	return c.RenderText(workspaceID)
 }
-func (c Deployment) GetRuns(workspaceID string) revel.Result {
+func (c Deployment) GetRuns(org string, workspaceName string) revel.Result {
 	//var secureParams *functions.SecureParams
-	userToken := c.Request.Header.Get("userToken")
+	//userToken := c.Request.Header.Get("userToken")
+	err := godotenv.Load()
+	token := os.Getenv("userToken")
 	config := &tfe.Config{
-		Token: userToken,
+		Token: token,
 	}
 	client, err := tfe.NewClient(config)
 	if err != nil {
 		log.Fatal(err)
 	}
 	ctx := context.Background()
+	workspaceID, err := functions.GetWorkspaceID(ctx, client, workspaceName, org)
 	runs, err := functions.GetRuns(ctx, client, workspaceID)
 	if err != nil {
+		c.Response.Status = 404
 		return c.RenderText(err.Error())
 	}
 	return c.RenderJSON(runs)
 }
-func (c Deployment) GetRun(runID string) revel.Result {
-	userToken := c.Request.Header.Get("userToken")
+func (c Deployment) GetVars(org string, workspaceName string) revel.Result {
+	//userToken := c.Request.Header.Get("userToken")
+	err := godotenv.Load()
+	token := os.Getenv("userToken")
 	config := &tfe.Config{
-		Token: userToken,
+		Token: token,
+	}
+	client, err := tfe.NewClient(config)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ctx := context.Background()
+	workspaceID, err := functions.GetWorkspaceID(ctx, client, workspaceName, org)
+	vars, err := functions.GetVariables(ctx, client, workspaceID)
+	if err != nil {
+		c.Response.Status = 404
+		return c.RenderText(err.Error())
+	}
+	c.Response.Status = 200
+	return c.RenderJSON(vars)
+}
+func (c Deployment) GetRun(runID string) revel.Result {
+	//userToken := c.Request.Header.Get("userToken")
+	err := godotenv.Load()
+	token := os.Getenv("userToken")
+	config := &tfe.Config{
+		Token: token,
 	}
 	client, err := tfe.NewClient(config)
 	if err != nil {
@@ -171,9 +219,11 @@ func (c Deployment) GetRun(runID string) revel.Result {
 	return c.RenderJSON(run)
 }
 func (c Deployment) PrintApplyLog(runID string) revel.Result {
-	userToken := c.Request.Header.Get("userToken")
+	//userToken := c.Request.Header.Get("userToken")
+	err := godotenv.Load()
+	token := os.Getenv("userToken")
 	config := &tfe.Config{
-		Token: userToken,
+		Token: token,
 	}
 	client, err := tfe.NewClient(config)
 	if err != nil {
