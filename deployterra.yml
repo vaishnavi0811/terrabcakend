@@ -25,7 +25,7 @@ spec:
       - name: backendapi
         image: ${registry}.azurecr.io/terracloud:${imagetag}
         env:
-          - name: terraformtoken
+          - name: userToken
             valueFrom:
               secretKeyRef:
                   key: terraformtoken

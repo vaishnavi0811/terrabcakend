@@ -20,7 +20,7 @@ steps:
     inputs:
       kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
       command: create
-      arguments: 'secret terra${{ parameters.env }} -n terra${{ parameters.env }} generic secrets-store-creds --from-literal terraformtoken=${{ parameters.token }}'
+      arguments: ' secret generic secrets-store-creds --from-literal=terraformtoken=${{ parameters.token }} -n terra${{ parameters.env }} '
   - task: PowerShell@2
     displayName: 'convert params to vars'
     inputs:
