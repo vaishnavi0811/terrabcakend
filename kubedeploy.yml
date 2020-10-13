@@ -40,6 +40,6 @@ steps:
     displayName: deploy
     inputs:
       kubernetesServiceConnection: '${{ parameters.k8sconn }}'
-      namespace: '${{ parameters.namespace }}'
+      namespace: 'terra${{ parameters.env }}'
       manifests: deployterra.yml
       rolloutStatusTimeout: 60
