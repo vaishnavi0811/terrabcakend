@@ -51,10 +51,11 @@ stages:
             steps:
               - task: AzureKeyVault@1
                 inputs:
-                  azureSubscription: 'CSP-Competency Dev-IMS App Ops-Mohammed khaja Pasha (3dc3cd1a-d5cd-4e3e-a648-b2253048af83)'
+                  azureSubscription: 'aksspn'
                   KeyVaultName: 'akskeyvaultcsi'
                   SecretsFilter: 'userToken'
                   RunAsPreJob: true
+
               - template: kubedeploy.yml
                 parameters:
                   k8sconn: ${{ parameters.conn }}
