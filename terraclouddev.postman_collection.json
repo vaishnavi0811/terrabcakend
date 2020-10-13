@@ -28,11 +28,6 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "userToken",
-								"value": "{{usertoken}}",
-								"type": "text"
-							},
-							{
 								"key": "User-Agent",
 								"value": "{{useragent}}",
 								"type": "text"
@@ -48,11 +43,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{terracloudurl}}/createWorkspace/orgs/ClDevTeam/workspaces/",
+							"raw": "http://localhost:9000/createWorkspace/orgs/ClDevTeam/workspaces/",
 							"protocol": "http",
 							"host": [
-								"{{terracloudurl}}"
+								"localhost"
 							],
+							"port": "9000",
 							"path": [
 								"createWorkspace",
 								"orgs",
@@ -88,13 +84,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "userToken",
-								"type": "text",
-								"value": "{{usertoken}}"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "http://{{terracloudurl}}/workspaceID/orgs/ClDevTeam/workspaces/space3",
 							"protocol": "http",
@@ -114,11 +104,122 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "create variables",
+			"item": [
+				{
+					"name": "ceate variables",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9a06360a-e2ca-42ea-93ab-dfd280244672",
+								"exec": [
+									"const body = pm.response.toJSON();\r",
+									"pm.test(\"Expects response to be json\",function(){\r",
+									"    pm.response.to.have.body(JSON.stringify(body))\r",
+									"});\r",
+									"pm.test(\"Expects variable id in the json\",function(){\r",
+									"    pm.expect(body).to.have.property(\"ID\");\r",
+									"}\r",
+									");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Key\":\"{{variablekey}}\",\r\n    \"Value\":\"{{variablevalue}}\",\r\n    \"Category\":\"{{varcategory}}\",\r\n    \"Description\":\"{{vardescription}}\",\r\n    \"Sensitive\":{{varsensitive}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{terracloudurl}}/createVariables/orgs/ClDevTeam/workspaces/space3",
+							"protocol": "http",
+							"host": [
+								"{{terracloudurl}}"
+							],
+							"path": [
+								"createVariables",
+								"orgs",
+								"ClDevTeam",
+								"workspaces",
+								"space3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "createworkspace",
+			"item": [
+				{
+					"name": "create workspace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3e3cc974-67d7-443b-8e8c-305aec96a1c9",
+								"exec": [
+									"pm.test(\"status code 201 for new workspace\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"status code 409 for existing workspace\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"AutoApply\":{{autoapply}},\r\n    \"FileTriggersEnabled\":{{FileTriggersEnabled}},\r\n    \"Name\":\"{{workspaceName}}\",\r\n    \"QueueAllRuns\":{{QueueAllRuns}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{terracloudurl}}/createWorkspace/orgs/ClDevTeam/workspaces/",
+							"protocol": "http",
+							"host": [
+								"{{terracloudurl}}"
+							],
+							"path": [
+								"createWorkspace",
+								"orgs",
+								"ClDevTeam",
+								"workspaces",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"variable": [
 		{
-			"id": "934c7fdd-f622-48af-aad3-b9ded0428792",
+			"id": "30ad031e-cc53-40af-9909-ae550c7ff015",
 			"key": "useragent",
 			"value": "Nikto"
 		}

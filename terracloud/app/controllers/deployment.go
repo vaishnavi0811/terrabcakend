@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"terracloud/app/functions"
@@ -93,7 +92,7 @@ func (c Deployment) CreateVariable(org string, workspaceName string) revel.Resul
 	//userToken := c.Request.Header.Get("userToken")
 
 	token := os.Getenv("userToken")
-	fmt.Println(token)
+
 	config := &tfe.Config{
 		Token: token,
 	}

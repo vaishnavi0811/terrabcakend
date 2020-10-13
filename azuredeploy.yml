@@ -13,7 +13,6 @@ parameters:
     type: boolean
   - name: registry
     type: string
-  - name: secret
   - name: conn
     default: serviceaccount
     displayName: Kubernetes connection
@@ -50,6 +49,12 @@ stages:
         runOnce:
           deploy:
             steps:
+              - task: AzureKeyVault@1
+                inputs:
+                  azureSubscription: 'CSP-Competency Dev-IMS App Ops-Mohammed khaja Pasha (3dc3cd1a-d5cd-4e3e-a648-b2253048af83)'
+                  KeyVaultName: 'akskeyvaultcsi'
+                  SecretsFilter: 'userToken'
+                  RunAsPreJob: true
               - template: kubedeploy.yml
                 parameters:
                   k8sconn: ${{ parameters.conn }}
@@ -57,10 +62,9 @@ stages:
                   env: $(env)
                   imagetag: $(imagetag)
                   registry: ${{ parameters.registry }}
-                  secret: ${{ parameters.registry }}
+                  token: $(usertoken)
               - template: apitesting.yml
                 parameters:
                   env: $(env)
                   imagetag: $(imagetag)
                   registry: ${{ parameters.registry }}
-                  secret: ${{ parameters.registry }}

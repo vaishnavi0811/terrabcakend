@@ -4,7 +4,7 @@ parameters:
   - name: env
   - name: imagetag
   - name: registry
-  - name: secret
+  - name: token
 
 steps:
   - checkout: self
@@ -15,12 +15,19 @@ steps:
       kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
       command: create
       arguments: 'namespace terra${{ parameters.env }}'
+  - task: Kubernetes@1
+    condition: eq('${{ parameters.createnamespace }}', true)
+    displayName: 'create secret'
+    inputs:
+      kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
+      command: create
+      arguments: 'secret terra${{ parameters.env }} -n terra${{ parameters.env }} generic secrets-store-creds --from-literal terraformtoken=${{ parameters.token }}'
   - task: PowerShell@2
     displayName: 'convert params to vars'
     inputs:
       targetType: filePath
       filePath: ./convertvars.ps1
-      arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }} -secret ${{ parameters.secret }}'
+      arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }}'
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace tokens in deployment yml'
     inputs:

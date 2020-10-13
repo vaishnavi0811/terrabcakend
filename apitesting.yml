@@ -2,14 +2,14 @@ parameters:
   - name: env
   - name: imagetag
   - name: registry
-  - name: secret
+
 steps:
 - task: PowerShell@2
   displayName: 'convert params to vars'
   inputs:
     targetType: filePath
     filePath: ./convertvars.ps1
-    arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }} -secret ${{ parameters.secret }}'
+    arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }}'
 - task: qetza.replacetokens.replacetokens-task.replacetokens@3
   displayName: 'Replace tokens in deployment yml'
   inputs:
