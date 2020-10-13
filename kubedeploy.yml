@@ -16,7 +16,6 @@ steps:
       command: create
       arguments: 'namespace terra${{ parameters.env }}'
   - task: Kubernetes@1
-    condition: eq('${{ parameters.createnamespace }}', true)
     displayName: 'create secret'
     inputs:
       kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
@@ -36,10 +35,11 @@ steps:
       tokenPrefix: '${'
       tokenSuffix: '}'
       variableFiles: '**/variables.json'
-  - task: KubernetesManifest@0
-    displayName: deploy
+  - task: Kubernetes@1
+    displayName: "Apply terracloud"
     inputs:
-      kubernetesServiceConnection: '${{ parameters.k8sconn }}'
-      namespace: 'terra${{ parameters.env }}'
-      manifests: deployterra.yml
-      rolloutStatusTimeout: 60
+      kubernetesServiceEndpoint: serviceaccount
+      command: apply
+      useConfigurationFile: true
+      configuration: deployterra.yml
+      arguments: 'namespace terra$(env)'
