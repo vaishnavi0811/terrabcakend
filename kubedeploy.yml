@@ -42,4 +42,4 @@ steps:
       command: apply
       useConfigurationFile: true
       configuration: deployterra.yml
-      arguments: 'namespace terra$(env)'
+      arguments: ' -n terra$(env)'
