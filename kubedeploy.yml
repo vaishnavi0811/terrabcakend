@@ -30,7 +30,7 @@ steps:
     inputs:
       targetType: filePath
       filePath: ./convertvars.ps1
-      arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }} -storageaccount ${{ parameters.storageaccount }'
+      arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }} -storageaccount ${{ parameters.storageaccount }}'
   - powershell: |
       get-content variables.json
     displayName: 'PowerShell Script'
