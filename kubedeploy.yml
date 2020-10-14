@@ -30,7 +30,10 @@ steps:
     inputs:
       targetType: filePath
       filePath: ./convertvars.ps1
-      arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }}'
+      arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }} -storageaccount ${{ parameters.storageaccount }'
+  - powershell: |
+      get-content variables.json
+    displayName: 'PowerShell Script'
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace tokens in deployment yml'
     inputs:
@@ -38,6 +41,9 @@ steps:
       tokenPrefix: '${'
       tokenSuffix: '}'
       variableFiles: '**/variables.json'
+  - powershell: |
+      get-content storageclass.yml
+    displayName: 'PowerShell Script'
   - task: Kubernetes@1
     displayName: "Create Storage class"
     condition: eq('${{ parameters.createstorageclass }}', true)
