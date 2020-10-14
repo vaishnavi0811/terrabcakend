@@ -1,6 +1,8 @@
 parameters:
   - name: k8sconn
   - name: createnamespace
+  - name: createsecret
+  - name: createstorageclass
   - name: env
   - name: imagetag
   - name: registry
@@ -18,6 +20,7 @@ steps:
       arguments: 'namespace terra${{ parameters.env }}'
   - task: Kubernetes@1
     displayName: 'create secret'
+    condition: eq('${{ parameters.createsecret }}', true)
     inputs:
       kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
       command: create
@@ -31,16 +34,17 @@ steps:
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace tokens in deployment yml'
     inputs:
-    targetFiles: |
-     **/deployterra.yml
-     **/storageclass.yml
-     **/scpvc.yml
-    tokenPrefix: '${'
-    tokenSuffix: '}'
-    variableFiles: '**/variables.json'
+      targetFiles: |
+        **/deployterra.yml
+        **/storageclass.yml
+        **/scpvc.yml
+      tokenPrefix: '${'
+      tokenSuffix: '}'
+      variableFiles: '**/variables.json'
     enabled: false
   - task: Kubernetes@1
     displayName: "Create Storage class"
+    condition: eq('${{ parameters.createstorageclass }}', true)
     inputs:
       kubernetesServiceEndpoint: serviceaccount
       command: apply
@@ -49,6 +53,7 @@ steps:
       arguments: ' -n terra${{ parameters.env }}'
   - task: Kubernetes@1
     displayName: "Create pv claim"
+    condition: eq('${{ parameters.createstorageclass }}', true)
     inputs:
       kubernetesServiceEndpoint: serviceaccount
       command: apply
