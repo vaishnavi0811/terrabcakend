@@ -43,12 +43,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9000/createWorkspace/orgs/ClDevTeam/workspaces/",
+							"raw": "http://{{terracloudurl}}/createWorkspace/orgs/ClDevTeam/workspaces/",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{terracloudurl}}"
 							],
-							"port": "9000",
 							"path": [
 								"createWorkspace",
 								"orgs",
@@ -116,14 +115,9 @@
 							"script": {
 								"id": "9a06360a-e2ca-42ea-93ab-dfd280244672",
 								"exec": [
-									"const body = pm.response.toJSON();\r",
-									"pm.test(\"Expects response to be json\",function(){\r",
-									"    pm.response.to.have.body(JSON.stringify(body))\r",
+									"pm.test(\"status code 201 for new variable\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
 									"});\r",
-									"pm.test(\"Expects variable id in the json\",function(){\r",
-									"    pm.expect(body).to.have.property(\"ID\");\r",
-									"}\r",
-									");\r",
 									""
 								],
 								"type": "text/javascript"
@@ -175,9 +169,6 @@
 								"exec": [
 									"pm.test(\"status code 201 for new workspace\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
-									"});\r",
-									"pm.test(\"status code 409 for existing workspace\", function () {\r",
-									"    pm.response.to.have.status(409);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -219,7 +210,7 @@
 	],
 	"variable": [
 		{
-			"id": "30ad031e-cc53-40af-9909-ae550c7ff015",
+			"id": "507dceae-20fa-4baf-acd5-6355ed64b160",
 			"key": "useragent",
 			"value": "Nikto"
 		}

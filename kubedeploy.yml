@@ -5,6 +5,7 @@ parameters:
   - name: imagetag
   - name: registry
   - name: token
+  - name: storageaccount
 
 steps:
   - checkout: self
@@ -30,11 +31,30 @@ steps:
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace tokens in deployment yml'
     inputs:
-      targetFiles: '**/deployterra.yml'
-      keepToken: true
-      tokenPrefix: '${'
-      tokenSuffix: '}'
-      variableFiles: '**/variables.json'
+    targetFiles: |
+     **/deployterra.yml
+     **/storageclass.yml
+     **/scpvc.yml
+    tokenPrefix: '${'
+    tokenSuffix: '}'
+    variableFiles: '**/variables.json'
+    enabled: false
+  - task: Kubernetes@1
+    displayName: "Create Storage class"
+    inputs:
+      kubernetesServiceEndpoint: serviceaccount
+      command: apply
+      useConfigurationFile: true
+      configuration: storageclass.yml
+      arguments: ' -n terra${{ parameters.env }}'
+  - task: Kubernetes@1
+    displayName: "Create pv claim"
+    inputs:
+      kubernetesServiceEndpoint: serviceaccount
+      command: apply
+      useConfigurationFile: true
+      configuration: scpvc.yml
+      arguments: ' -n terra${{ parameters.env }}'
   - task: Kubernetes@1
     displayName: "Apply terracloud"
     inputs:
@@ -42,4 +62,4 @@ steps:
       command: apply
       useConfigurationFile: true
       configuration: deployterra.yml
-      arguments: ' -n terra$(env)'
+      arguments: ' -n terra${{ parameters.env }}'

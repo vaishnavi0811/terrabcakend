@@ -11,7 +11,7 @@ RUN go get -u github.com/hashicorp/go-tfe
 RUN go get -u github.com/lib/pq
 RUN go get -u github.com/iancoleman/strcase
 #build revel app
-RUN revel build terracloud terracloud 
+RUN revel build terracloud -m dev terracloud 
 
 # Final stage
 FROM alpine:3.8

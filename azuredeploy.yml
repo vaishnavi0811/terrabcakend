@@ -9,9 +9,19 @@ parameters:
     - ubuntu-16.04
     - macOS-latest
     - macOS-10.14
+  - name: env
+    values:
+    - dev
+    - qa
   - name: createnamespace
     type: boolean
+  - name: createsecret
+    type: boolean
   - name: registry
+    default: contentapp
+    type: string
+  - name: storageaccount
+    default: terracloudlog
     type: string
   - name: conn
     default: serviceaccount
@@ -31,16 +41,14 @@ stages:
           - task: Docker@2
             displayName: buildAndPush
             inputs:
-              containerRegistry: '$(registry)'
+              containerRegistry: ${{ parameters.registry }}
               repository: terracloud
   - stage: DeployBackend
     displayName: Deploy into AKS
     jobs:
     - deployment: Deploy
-      environment: 'dev'
+      environment: ${{ parameters.env }}
       variables:
-        - name: env
-          value: $(Environment.Name)
         - name: imagetag
           value: $(Build.BuildId)
       pool:
@@ -55,17 +63,15 @@ stages:
                   KeyVaultName: 'akskeyvaultcsi'
                   SecretsFilter: 'userToken'
                   RunAsPreJob: true
-
               - template: kubedeploy.yml
                 parameters:
                   k8sconn: ${{ parameters.conn }}
                   createnamespace: ${{ parameters.createnamespace }}
-                  env: $(env)
+                  env: ${{ parameters.env }}
                   imagetag: $(imagetag)
                   registry: ${{ parameters.registry }}
                   token: $(usertoken)
+                  storageaccount: ${{ parameters.storageaccount }}
               - template: apitesting.yml
                 parameters:
-                  env: $(env)
-                  imagetag: $(imagetag)
-                  registry: ${{ parameters.registry }}
+                  env: ${{ parameters.env }}

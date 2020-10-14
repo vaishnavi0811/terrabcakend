@@ -9,7 +9,7 @@ steps:
   inputs:
     targetType: filePath
     filePath: ./convertvars.ps1
-    arguments: '-env ${{ parameters.env }} -imagetag ${{ parameters.imagetag }} -registry ${{ parameters.registry }}'
+    arguments: '-env ${{ parameters.env }}'
 - task: qetza.replacetokens.replacetokens-task.replacetokens@3
   displayName: 'Replace tokens in deployment yml'
   inputs:
