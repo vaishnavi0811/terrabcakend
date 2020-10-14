@@ -43,7 +43,7 @@ spec:
           name: http
           protocol: TCP
         volumeMounts:
-            - mountPath: /go/src/terracloud
+            - mountPath: /go/src/terracloud/devlog
               name: log-storage
       volumes:
           - name: log-storage
