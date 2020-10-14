@@ -1,7 +1,5 @@
 parameters:
   - name: env
-  - name: imagetag
-  - name: registry
 
 steps:
 - task: PowerShell@2
