@@ -48,7 +48,7 @@ spec:
       volumes:
           - name: log-storage
             persistentVolumeClaim:
-                  claimName: terracloudlog
+                  claimName: terracloudpvc${env}
       
 ---
 kind: Service
