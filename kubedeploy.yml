@@ -10,7 +10,7 @@ parameters:
   - name: storageaccount
 
 steps:
-  - checkout: self
+  - checkout: self/dev
   - task: Kubernetes@1
     condition: eq('${{ parameters.createnamespace }}', true)
     displayName: 'create namespace'

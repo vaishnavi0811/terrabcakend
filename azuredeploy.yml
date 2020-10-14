@@ -40,6 +40,7 @@ stages:
         pool:
           vmImage: ${{ parameters.image }}
         steps:
+          - checkout: self/dev
           - task: Docker@2
             displayName: buildAndPush
             inputs:
