@@ -34,14 +34,10 @@ steps:
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace tokens in deployment yml'
     inputs:
-      targetFiles: |
-        **/deployterra.yml
-        **/storageclass.yml
-        **/scpvc.yml
+      targetFiles: '**/deployterra.yml,**/storageclass.yml,**/scpvc.yml'
       tokenPrefix: '${'
       tokenSuffix: '}'
       variableFiles: '**/variables.json'
-    enabled: false
   - task: Kubernetes@1
     displayName: "Create Storage class"
     condition: eq('${{ parameters.createstorageclass }}', true)
