@@ -5,7 +5,7 @@
     [Parameter(Mandatory=$false)]
     $imagetag,
     [Parameter(Mandatory=$false)]
-    $registry
+    $registry,
     [Parameter(Mandatory=$false)]
     $storageaccount
 )
