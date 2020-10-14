@@ -29,6 +29,14 @@ parameters:
     default: serviceaccount
     displayName: Kubernetes connection
 
+resources:
+  repositories:
+  - repository: backendapp
+    type: git
+    endpoint: MyAzureReposGitServiceConnection
+    name: backend
+    ref: dev
+
 trigger: none
 
 stages:
@@ -40,7 +48,7 @@ stages:
         pool:
           vmImage: ${{ parameters.image }}
         steps:
-          - checkout: self/dev
+          - checkout: backendapp
           - task: Docker@2
             displayName: buildAndPush
             inputs:
