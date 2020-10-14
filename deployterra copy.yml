@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: terracloud${env}
+  name: terraclouddev
   labels:
-      app: terracloud${env}
+      app: terraclouddev
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: terracloud${env}
+      app: terraclouddev
   strategy:
      rollingUpdate:
          maxSurge: 25%
@@ -17,13 +17,13 @@ spec:
   template:
     metadata:
       labels:
-        app: terracloud${env}
+        app: terraclouddev
     spec:
       imagePullSecrets:
           - name: nginx-image
       containers:
       - name: backendapi
-        image: ${registry}.azurecr.io/terracloud:${imagetag}
+        image: contentapp.azurecr.io/terracloud:v2
         env:
           - name: userToken
             valueFrom:
@@ -40,23 +40,23 @@ spec:
           name: http
           protocol: TCP
         volumeMounts:
-            - mountPath: /var/log/devlog
+            - mountPath: /go/src/terracloud/devlog
               name: log-storage
       volumes:
           - name: log-storage
             persistentVolumeClaim:
-                  claimName: terracloudpvc${env}
+                  claimName: terracloudpvcdev
       
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name:  terrabackend${env}
+  name:  terrabackenddev
   annotations:
       service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   selector:
-    app:  terracloud${env}
+    app:  terraclouddev
   type:  LoadBalancer
   ports:
   - name:  terraapiport
@@ -74,13 +74,13 @@ metadata:
       SecRuleEngine On
       SecRequestBodyLimit 15107200
       SecAuditLog /dev/stdout
-  name: terracloud${env}
+  name: terraclouddev
 spec:
   rules:
-    - host: terracloud${env}.sevenchannels.in
+    - host: terraclouddev.sevenchannels.in
       http:
         paths:
           - backend:
-              serviceName: terrabackend${env}
+              serviceName: terrabackenddev
               servicePort: 80
             path: /(.*)
