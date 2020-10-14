@@ -18,5 +18,5 @@ FROM alpine:3.8
 RUN apk update && apk upgrade && apk add --no-cache ca-certificates && update-ca-certificates
 EXPOSE 9000
 WORKDIR /
-COPY --from=build-env /go/src/terracloud /
+COPY --from=build-env /go/terracloud /
 ENTRYPOINT /run.sh
