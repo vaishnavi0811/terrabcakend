@@ -31,9 +31,6 @@ spec:
                   key: terraformtoken
                   name: secrets-store-creds
         imagePullPolicy: IfNotPresent
-        securityContext:
-          runAsUser: 1000
-          allowPrivilegeEscalation: true
         resources:
           limits:
             memory: "500Mi"
