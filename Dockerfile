@@ -11,12 +11,12 @@ RUN go get -u github.com/hashicorp/go-tfe
 RUN go get -u github.com/lib/pq
 RUN go get -u github.com/iancoleman/strcase
 #build revel app
-RUN revel build terracloud -m dev terracloud 
+RUN revel build terracloud -m dev terracloud
 
 # Final stage
 FROM ubuntu
-RUN  apt update && apt upgrade && apt add --no-cache ca-certificates && update-ca-certificates
+RUN apt update && apt upgrade -y && apt install -y apt-transport-https ca-certificates
 EXPOSE 9000
 WORKDIR /
 COPY --from=build-env /go/terracloud /
-ENTRYPOINT /run.sh
+ENTRYPOINT /run.s
