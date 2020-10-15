@@ -45,28 +45,27 @@ steps:
       get-content storageclass.yml
     displayName: 'PowerShell Script'
   - task: Kubernetes@1
-    displayName: "Create Storage class"
+    displayName: 'Create Storage class'
     condition: eq('${{ parameters.createstorageclass }}', true)
     inputs:
-      kubernetesServiceEndpoint: serviceaccount
+      kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
       command: apply
       useConfigurationFile: true
       configuration: storageclass.yml
       arguments: ' -n terra${{ parameters.env }}'
   - task: Kubernetes@1
-    displayName: "Create pv claim"
+    displayName: 'Create pv claim'
     condition: eq('${{ parameters.createstorageclass }}', true)
     inputs:
-      kubernetesServiceEndpoint: serviceaccount
+      kubernetesServiceEndpoint: '${{ parameters.k8sconn }}'
       command: apply
       useConfigurationFile: true
       configuration: scpvc.yml
       arguments: ' -n terra${{ parameters.env }}'
-  - task: Kubernetes@1
-    displayName: "Apply terracloud"
+  - task: KubernetesManifest@0
+    displayName: deploy
     inputs:
-      kubernetesServiceEndpoint: serviceaccount
-      command: apply
-      useConfigurationFile: true
-      configuration: deployterra.yml
-      arguments: ' -n terra${{ parameters.env }}'
+      kubernetesServiceConnection: '${{ parameters.k8sconn }}'
+      namespace: '${{ parameters.namespace }}'
+      manifests: deployterra.yml
+      rolloutStatusTimeout: 120
