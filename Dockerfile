@@ -14,9 +14,9 @@ RUN go get -u github.com/iancoleman/strcase
 RUN revel build terracloud -m dev terracloud
 
 # Final stage
-FROM ubuntu
+FROM ubuntu:18.04
 RUN apt update && apt upgrade -y && apt install -y apt-transport-https ca-certificates
 EXPOSE 9000
 WORKDIR /
 COPY --from=build-env /go/terracloud /
-ENTRYPOINT /run.s
+ENTRYPOINT /run.sh
