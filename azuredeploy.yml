@@ -37,6 +37,8 @@ stages:
     jobs:
       - job: DockerBuild
         displayName: Build docker image
+        variables:
+          trivyVersion: 0.9.2
         pool:
           vmImage: ${{ parameters.image }}
         steps:
@@ -60,7 +62,7 @@ stages:
             inputs:
               script: |
                   trivy image --severity LOW,MEDIUM --format template --template "@templates/junit.tpl" -o junit-report-low-med.xml ${{ parameters.registry }}.azurecr.io/terracloud:$(Build.BuildId)
-                  
+
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: 'JUnit'
