@@ -35,4 +35,4 @@ steps:
     testResultsFiles: '**/newman-*.xml'
     searchFolder: '$(System.DefaultWorkingDirectory)/newman'
     mergeTestResults: true
-    testRunTitle: terraclouddev
+    testRunTitle: 'terraclouddev API testing'
