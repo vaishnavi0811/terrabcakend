@@ -14,7 +14,7 @@ RUN go get -u github.com/iancoleman/strcase
 RUN revel build terracloud -m dev terracloud 
 
 # Final stage
-FROM alpine:3.8
+FROM alpine:latest
 RUN apk update && apk upgrade && apk add --no-cache ca-certificates && update-ca-certificates
 EXPOSE 9000
 WORKDIR /
